@@ -6,7 +6,7 @@
 
     this.constructor = function( x, y ){
       this.setX(x);
-      this.setY(x);
+      this.setY(y);
     };
 
     this.getX = function() {
@@ -17,11 +17,11 @@
       return this.y;
     };
 
-    this.setX = function(x) {
+    this.setX = function( x ) {
       this.x = x;
     };
 
-    this.setY = function(y){
+    this.setY = function( y ){
       this.y = y;
     };
 
