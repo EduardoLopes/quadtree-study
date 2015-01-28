@@ -80,6 +80,29 @@
 
     };
 
+    this.query = function( range ){
+
+      var entities = [];
+
+      if(!this.boundary.intersectsAABB( range ) ){
+        return entities;
+      }
+
+      entities.push.apply(entities, this.entities);
+
+      if(this.nodes[0] == null){
+        return entities;
+      }
+
+      entities.push.apply(entities, this.nodes[0].query( range ));
+      entities.push.apply(entities, this.nodes[1].query( range ));
+      entities.push.apply(entities, this.nodes[2].query( range ));
+      entities.push.apply(entities, this.nodes[3].query( range ));
+
+      return entities;
+
+    }
+
   });
 
   global.QuadTree = QuadTree;
