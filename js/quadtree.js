@@ -37,15 +37,76 @@
 
     };
 
+    this.getIndex = function(entity){
+      var index;
+
+      if(entity.x < this.boundary.getCenterX() && entity.width < this.boundary.getCenterX()){
+        if(entity.y < this.boundary.getCenterY() && entity.height < this.boundary.getCenterY()){
+          index = 0;
+        } else if(entity.y > this.boundary.getCenterY()){
+          index = 3
+        }
+      } else if(entity.x > this.boundary.getCenterX()){
+        if(entity.y > this.boundary.getCenterY() && entity.height < this.boundary.getCenterY()){
+          index = 2;
+        } else if(entity.y < this.boundary.getCenterY()){
+          index = 1
+        }
+      }
+
+      return index;
+
+    }
+
     this.insertToChildNode = function( entity, x, y, width, height, index ){
 
-      if(this.nodes[index] == null){
-        this.nodes[index] = new QuadTree( new AABB( x, y, width, height ) );
+      if(typeof this.nodes[index] == 'undefined'){
+        this.divide();
       }
 
-      if( entity.intersectRect( x, y, width, height ) ){
+      if(typeof index != 'undefined'){
         this.nodes[index].insert(entity);
       }
+
+    };
+
+    this.divide = function(){
+
+      this.nodes[0] = new QuadTree(
+        new AABB(
+          this.boundary.get('x'),
+          this.boundary.get('y'),
+          this.boundary.getHalfXDimention(),
+          this.boundary.getHalfYDimention()
+        )
+      );
+
+      this.nodes[1] = new QuadTree(
+        new AABB(
+          this.boundary.getCenterX(),
+          this.boundary.get('y'),
+          this.boundary.getHalfXDimention(),
+          this.boundary.getHalfYDimention()
+        )
+      );
+
+      this.nodes[2] = new QuadTree(
+        new AABB(
+          this.boundary.getCenterX(),
+          this.boundary.getCenterY(),
+          this.boundary.getHalfXDimention(),
+          this.boundary.getHalfYDimention()
+        )
+      );
+
+      this.nodes[3] = new QuadTree(
+        new AABB(
+          this.boundary.get('x'),
+          this.boundary.getCenterY(),
+          this.boundary.getHalfXDimention(),
+          this.boundary.getHalfYDimention()
+        )
+      );
 
     };
 
@@ -57,34 +118,7 @@
         this.boundary.get('y'),
         this.boundary.getHalfXDimention(),
         this.boundary.getHalfYDimention(),
-        0
-      );
-
-      this.insertToChildNode(
-        entity,
-        this.boundary.getCenterX(),
-        this.boundary.get('y'),
-        this.boundary.getHalfXDimention(),
-        this.boundary.getHalfYDimention(),
-        1
-      );
-
-      this.insertToChildNode(
-        entity,
-        this.boundary.get('x'),
-        this.boundary.getCenterY(),
-        this.boundary.getHalfXDimention(),
-        this.boundary.getHalfYDimention(),
-        2
-      );
-
-      this.insertToChildNode(
-        entity,
-        this.boundary.getCenterX(),
-        this.boundary.getCenterY(),
-        this.boundary.getHalfXDimention(),
-        this.boundary.getHalfYDimention(),
-        3
+        this.getIndex(entity)
       );
 
     };

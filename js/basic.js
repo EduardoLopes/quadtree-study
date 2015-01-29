@@ -4,8 +4,8 @@
 
   var Basic = Class.extend(function(){
 
-    this.visible = false;
-    this.exists = false;
+    this.visible = true;
+    this.exists = true;
 
     this.set = function(property, value){
       this[property] = value;

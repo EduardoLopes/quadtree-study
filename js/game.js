@@ -8,11 +8,20 @@
     this.height = null;
     this.delta = 0;
     this.ctx = null;
+    this.world = {
+      width: null,
+      height: null
+    }
 
     this.constructor = function( width, height ){
 
       this.set( 'width', width );
       this.set( 'height', height );
+
+      this.world = {
+        width: width,
+        height: height
+      }
 
     };
 
