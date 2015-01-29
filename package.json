@@ -1,0 +1,13 @@
+{
+  "name": "study-quadtree",
+  "version": "0.0.1",
+  "description": "Quadtree Study",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eduardo Lopes",
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-livereload": "^3.6.0"
+  }
+}

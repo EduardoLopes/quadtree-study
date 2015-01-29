@@ -41,8 +41,8 @@
     ctx.stroke();
 
     //DEBUG
-    // ctx.fillStyle = '#181818';
-    // ctx.fillRect( node.boundary.getCenterX() - 1, node.boundary.getCenterY() - 1, 2, 2);
+    ctx.fillStyle = '#181818';
+    ctx.fillRect( node.boundary.getCenterX() - 1, node.boundary.getCenterY() - 1, 2, 2);
     // ctx.fillText(node.boundary.getCenterX()+','+ node.boundary.getCenterY(), node.boundary.getCenterX(), node.boundary.getCenterY());
 
     for (var i =  0; i < node.nodes.length; i++) {

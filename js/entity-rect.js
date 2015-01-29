@@ -28,9 +28,9 @@
 
       Game.ctx.fillStyle = this.color;
       Game.ctx.fillRect( this.get('x'), this.get('y'), this.get('width'), this.get('height') );
-      Game.ctx.beginPath();
-      Game.ctx.rect( this.get('x'), this.get('y'), this.get('width'), this.get('height') );
-      Game.ctx.stroke();
+      // Game.ctx.beginPath();
+      // Game.ctx.rect( this.get('x'), this.get('y'), this.get('width'), this.get('height') );
+      // Game.ctx.stroke();
       // Game.ctx.fillStyle = '#181818';
       // Game.ctx.fillText(this.index, this.get('x'), this.get('y'));
 
