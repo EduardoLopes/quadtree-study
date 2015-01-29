@@ -4,12 +4,14 @@
 
   var AABB = Rectangle.extend(function(){
 
+
+
     this.constructor = function( x, y, width, height ){
       this.super( x, y, width, height );
     };
 
-
     this.intersectRect = function( x, y, width, height ){
+
       if(this.x < x + width && this.y < y + height
         && this.x + this.width > x && this.y + this.height > y){
         return true;
@@ -22,19 +24,19 @@
     };
 
     this.getCenterX = function(){
-      return this.getX() + (this.getWidth() / 2);
+      return this.get('x') + (this.get('width') / 2);
     };
 
     this.getCenterY = function(){
-      return this.getY() + (this.getHeight() / 2);
+      return this.get('y')  + (this.get('height') / 2);
     };
 
     this.getHalfXDimention = function(){
-      return this.getWidth() / 2;
+      return this.get('width') / 2;
     };
 
     this.getHalfYDimention = function(){
-      return this.getHeight() / 2;
+      return this.get('height') / 2;
     };
 
   });

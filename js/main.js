@@ -5,32 +5,33 @@
   var canvas = document.getElementById('quadtree'),
       ctx = canvas.getContext('2d');
 
-      canvas.width = 500;
-      canvas.height = 500;
+  canvas.width = Game.width;
+  canvas.height = Game.height;
 
-  var q = new QuadTree( new AABB(0,0,500,500) )
+  Game.ctx = ctx;
 
-  q.insert( new AABB(10,10,20,20) );
-  q.insert( new AABB(10,300,20,20) );
-  q.insert( new AABB(400,20,20,20) );
-  q.insert( new AABB(400,80,20,20) );
-  q.insert( new AABB(400,100,20,20) );
-  q.insert( new AABB(300,300,20,20) );
-  q.insert( new AABB(200,300,20,20) );
-  q.insert( new AABB(300,300,20,20) );
-  q.insert( new AABB(200,300,20,20) );
-  q.insert( new AABB(300,310,20,20) );
-  q.insert( new AABB(210,309,20,20) );
-  q.insert( new AABB(220,302,20,20) );
-  q.insert( new AABB(230,350,20,20) );
-  q.insert( new AABB(330,320,20,20) );
-  q.insert( new AABB(220,310,20,20) );
+  var entities = [];
 
-  var query = q.query( new AABB(0,0,500,500) );
+  var quadTreeBoundary = new AABB(0,0,Game.width,Game.height);
+  var q = new QuadTree( quadTreeBoundary );
 
+  for (var i = 0; i < 50; i++) {
 
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(0,0,500,500);
+    var width = Game.random(8, 50);
+    var height = Game.random(8, 50);
+    var x = Game.random(20, Game.width);
+    var y = Game.random(20, Game.height);
+
+    if(x + width > Game.width){
+      x -= width;
+    }
+
+    if(y + height > Game.height){
+      y -= height;
+    }
+
+     entities.push( new Rect( x, y, width, height ) );
+  };
 
   function drawTree(node){
 
@@ -39,9 +40,8 @@
     ctx.closePath();
     ctx.stroke();
 
-    ctx.fillStyle = '#000';
-    ctx.fillRect( node.boundary.getCenterX() - 2.5, node.boundary.getCenterY() - 2.5, 5, 5);
-
+    ctx.fillStyle = '#181818';
+    ctx.fillRect( node.boundary.getCenterX() - 1, node.boundary.getCenterY() - 1, 2, 2);
 
     for (var i =  0; i < node.nodes.length; i++) {
 
@@ -51,15 +51,58 @@
 
   }
 
-  drawTree(q);
+  (function update(){
 
-  ctx.fillStyle = 'rgba(24,24,24,0.2)';
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0,0,Game.width,Game.height);
 
-  for (var i = 0; i < query.length; i++) {
+    for (var i = 0; i < entities.length; i++) {
+      entities[i].update();
+    };
 
-    ctx.fillRect( query[i].x, query[i].y, query[i].width, query[i].height);
+    q.clear();
 
-  };
+    for (var i = 0; i < entities.length; i++) {
+      q.insert(entities[i]);
+    };
+
+
+    //brute force
+    // for (var i = 0; i < entities.length; i++) {
+    //   for (var j = 0; j < entities.length; j++) {
+    //     if(entities[i] != entities[j] && entities[i].intersectsAABB( entities[j] ) ){
+    //       entities[i].color = '#0f0';
+    //       entities[j].color = '#0f0';
+    //     }
+    //   }
+    // }
+
+    for (var i = 0; i < entities.length; i++) {
+
+      var query = q.query( entities[i] );
+
+      for (var j = 0; j < query.length; j++) {
+
+        if( entities[i] != query[j] && entities[i].intersectsAABB( query[j] ) ){
+          entities[i].color = 'rgba(24,255,24,0.5)';
+          query[j].color = 'rgba(24,255,24,0.5)';
+        }
+
+      };
+
+    };
+
+    for (var i = 0; i < entities.length; i++) {
+      entities[i].draw();
+    };
+
+    drawTree(q);
+
+    requestAnimationFrame(update);
+
+  })()
+
+
 
 
 })(window);

@@ -2,27 +2,14 @@
 
   'use strict';
 
-  var Point = Class.extend(function(){
+  var Point = Basic.extend(function(){
+
+    this.x = null;
+    this.y = null;
 
     this.constructor = function( x, y ){
-      this.setX(x);
-      this.setY(y);
-    };
-
-    this.getX = function() {
-      return this.x;
-    };
-
-    this.getY = function() {
-      return this.y;
-    };
-
-    this.setX = function( x ) {
-      this.x = x;
-    };
-
-    this.setY = function( y ){
-      this.y = y;
+      this.set('x', x);
+      this.set('y', y);
     };
 
   });
