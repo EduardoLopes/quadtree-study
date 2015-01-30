@@ -33,4 +33,4 @@
 
   global.Game = new Game( 500, 500 );
 
-})(window);
+})(this);

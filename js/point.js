@@ -16,4 +16,4 @@
 
   global.Point = Point;
 
-})(window);
+})(this);

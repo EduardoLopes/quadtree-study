@@ -40,4 +40,4 @@
 
   global.Rect = Rect;
 
-})(window);
+})(this);

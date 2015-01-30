@@ -1,23 +1,34 @@
-(function(global, undefined){
+(function(global){
 
   'use strict';
 
-  var Basic = Class.extend(function(){
-
-    this.visible = true;
-    this.exists = true;
-
-    this.set = function(property, value){
-      this[property] = value;
+  var Basic = Class.create({
+    initialize: function(){
+      this.visible = true;
+      this.active = true;
+      this.alive = true;
+    },
+    kill: function(){
+      this.visible = false;
+      this.active = false;
+      this.alive = false;
+    },
+    revive: function(){
+      this.visible = true;
+      this.active = true;
+      this.alive = true;
+    },
+    setVisible: function(valeu){
+      this.visible = valeu;
+    },
+    setAlive: function(value){
+      this.alive = value;
+    },
+    setExists: function(value){
+      this.exists = value;
     }
-
-    this.get = function(property, value){
-      if(typeof this[property] == 'undefined') throw new Error('Property "'+property+'" doesn\'t exists.');
-      return this[property];
-    }
-
   });
 
   global.Basic = Basic;
 
-})(window);
+})(this);

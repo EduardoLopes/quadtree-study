@@ -151,4 +151,4 @@
   global.QuadTree = QuadTree;
 
 
-})(window);
+})(this);

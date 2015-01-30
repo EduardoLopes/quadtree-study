@@ -43,4 +43,4 @@
 
   global.AABB = AABB;
 
-})(window);
+})(this);

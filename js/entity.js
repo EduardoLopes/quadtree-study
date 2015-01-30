@@ -16,4 +16,4 @@
 
   global.Entity = Entity;
 
-})(window);
+})(this);

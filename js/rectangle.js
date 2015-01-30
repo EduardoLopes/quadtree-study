@@ -17,4 +17,4 @@
 
   global.Rectangle = Rectangle;
 
-})(window);
+})(this);

@@ -8,6 +8,7 @@
   "author": "Eduardo Lopes",
   "devDependencies": {
     "gulp": "^3.8.10",
-    "gulp-livereload": "^3.6.0"
+    "gulp-livereload": "^3.6.0",
+    "prototype": "0.0.5"
   }
 }
