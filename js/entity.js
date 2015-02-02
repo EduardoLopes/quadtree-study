@@ -2,16 +2,13 @@
 
   'use strict';
 
-  var Entity = AABB.extend(function(){
+  var Entity = Class.create(AABB, {
+    update: function(){
 
-    this.update = function(delta){
+    },
+    draw: function(){
 
-    };
-
-    this.draw = function(ctx){
-
-    };
-
+    }
   });
 
   global.Entity = Entity;
