@@ -10,13 +10,3 @@ gulp.task('watch', function() {
   gulp.watch(['js/**/*', 'css/**/*', '**/*.html']).on('change', livereload.changed);
 
 });
-
-// gulp.task('test', function () {
-//     return gulp.src('tests/quadtree-test.js', {read: false})
-//         .pipe(mocha());
-// });
-
-gulp.task('test', function () {
-  return gulp.src('tests/quadtree-test.js')
-    .pipe(jasmine());
-});

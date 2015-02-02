@@ -2,16 +2,12 @@
 
   'use strict';
 
-  var Point = Basic.extend(function(){
-
-    this.x = null;
-    this.y = null;
-
-    this.constructor = function( x, y ){
-      this.set('x', x);
-      this.set('y', y);
-    };
-
+  var Point = Class.create(Basic, {
+    initialize: function( $super, x, y ){
+      $super();
+      this.x = x;
+      this.y = y;
+    }
   });
 
   global.Point = Point;

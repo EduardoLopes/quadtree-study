@@ -6,24 +6,21 @@ describe("Basic", function() {
     basic = new Basic();
   });
 
-  it("should be invisible", function() {
-    basic.kill();
-
-    expect(basic.visible).toBe(false);
-
-  });
-
   it("should be dead", function() {
     basic.kill();
 
     expect(basic.alive).toBe(false);
+    expect(basic.active).toBe(false);
+    expect(basic.visible).toBe(false);
 
   });
 
-  it("should be inactive", function() {
-    basic.kill();
+  it("should be alive", function() {
+    basic.revive();
 
-    expect(basic.active).toBe(false);
+    expect(basic.alive).toBe(true);
+    expect(basic.active).toBe(true);
+    expect(basic.visible).toBe(true);
 
   });
 
