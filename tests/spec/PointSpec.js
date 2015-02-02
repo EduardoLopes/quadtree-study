@@ -8,7 +8,7 @@ describe("Point", function() {
 
   });
 
-  it("should extend class Basic", function() {
+  it("should extend from class Basic", function() {
 
     expect(Point.superclass).toBe(Basic);
 
