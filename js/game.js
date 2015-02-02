@@ -2,33 +2,18 @@
 
   'use strict';
 
-  var Game = Basic.extend(function(){
-
-    this.width = null;
-    this.height = null;
-    this.delta = 0;
-    this.ctx = null;
-    this.world = {
-      width: null,
-      height: null
-    }
-
-    this.constructor = function( width, height ){
-
-      this.set( 'width', width );
-      this.set( 'height', height );
-
+  var Game = Class.create(Basic, {
+    initialize: function($super, width, height){
+      $super();
+      this.width = width;
+      this.height = height;
+      this.delta = 0;
+      this.ctx = null;
       this.world = {
-        width: width,
-        height: height
+        width: this.width,
+        height: this.height
       }
-
-    };
-
-    this.random = function(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-
   });
 
   global.Game = new Game( 500, 500 );
