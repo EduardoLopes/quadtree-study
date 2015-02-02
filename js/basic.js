@@ -7,16 +7,19 @@
       this.visible = true;
       this.active = true;
       this.alive = true;
+      this.exists = true;
     },
     kill: function(){
       this.visible = false;
       this.active = false;
       this.alive = false;
+      this.exists = false;
     },
     revive: function(){
       this.visible = true;
       this.active = true;
       this.alive = true;
+      this.exists = true;
     },
     setVisible: function(valeu){
       this.visible = valeu;

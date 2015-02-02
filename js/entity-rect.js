@@ -6,8 +6,8 @@
     initialize: function($super, x, y, width, height){
       $super(x, y, width, height);
       this.color = 'rgba(24,24,24,0.5)';
-      this.vx = Game.random(2, 16);
-      this.vy = Game.random(2, 16);
+      this.vx = Util.random(2, 16);
+      this.vy = Util.random(2, 16);
       this.index = null;
     },
     update: function(){

@@ -20,7 +20,7 @@
       return this.x + (this.width / 2);
     },
     getCenterY: function(){
-      return this.y  + (this.height / 2);
+      return this.y + (this.height / 2);
     },
     getHalfXDimention: function(){
       return this.width / 2;
