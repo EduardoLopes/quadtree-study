@@ -32,7 +32,9 @@
     },
 
     getIndex: function(entity){
-      var index;
+      var index = 0;
+
+
 
       if(entity.x < this.bounds.getCenterX() && entity.width < this.bounds.getCenterX()){
         if(entity.y < this.bounds.getCenterY() && entity.height < this.bounds.getCenterY()){
@@ -47,6 +49,10 @@
           index = 1
         }
       }
+
+      // if(typeof index == 'undefined'){
+      //   console.log(index);
+      // }
 
       return index;
 

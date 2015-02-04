@@ -6,8 +6,8 @@
     initialize: function($super, x, y, width, height){
       $super(x, y, width, height);
       this.color = 'rgba(24,24,24,0.5)';
-      this.vx = Util.random(2, 16);
-      this.vy = Util.random(2, 16);
+      this.vx = Util.random(-5, 5);
+      this.vy = Util.random(-5, 5);
       this.index = null;
     },
     update: function(){
@@ -28,7 +28,7 @@
     draw: function(){
 
       Game.ctx.fillStyle = this.color;
-      Game.ctx.fillRect( this.x, this.y, this.width, this.height);
+      Game.ctx.fillRect( this.x - Game.camera.x, this.y - Game.camera.y, this.width, this.height);
       // Game.ctx.beginPath();
       // Game.ctx.rect( this.x, this.y, this.width, this.height );
       // Game.ctx.stroke();

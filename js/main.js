@@ -8,6 +8,14 @@
   canvas.width = Game.width;
   canvas.height = Game.height;
 
+  canvas.addEventListener('mousemove', function(e){
+    var rect = canvas.getBoundingClientRect();
+
+    Game.mouse.x = (e.clientX - rect.left);
+    Game.mouse.y = (e.clientY - rect.top);
+
+  });
+
   Game.ctx = ctx;
 
   var entities = [];
@@ -15,7 +23,7 @@
   var quadTreeBoundary = new AABB(0,0,Game.world.width,Game.world.height);
   var q = new QuadTree( quadTreeBoundary );
 
-  for (var i = 0; i < 50; i++) {
+  for (var i = 0; i < 200; i++) {
 
     var width = Util.random(8, 50);
     var height = Util.random(8, 50);
@@ -36,13 +44,13 @@
   function drawTree(node){
 
     ctx.beginPath();
-    ctx.rect( node.bounds.x, node.bounds.y, node.bounds.width, node.bounds.height );
+    ctx.rect( node.bounds.x - Game.camera.x, node.bounds.y - Game.camera.y, node.bounds.width, node.bounds.height );
     ctx.closePath();
     ctx.stroke();
 
     //DEBUG
     ctx.fillStyle = '#181818';
-    ctx.fillRect( node.bounds.getCenterX() - 1, node.bounds.getCenterY() - 1, 2, 2);
+    ctx.fillRect( node.bounds.getCenterX() - 1 - Game.camera.x, node.bounds.getCenterY() - 1 - Game.camera.y, 2, 2);
     // ctx.fillText(node.bounds.getCenterX()+','+ node.bounds.getCenterY(), node.bounds.getCenterX(), node.bounds.getCenterY());
 
     for (var i =  0; i < node.nodes.length; i++) {
@@ -53,21 +61,13 @@
 
   }
 
-  //DEBUG
-  // var mouse = new Rect( 2, 2, 2, 2 );
-
-  // canvas.addEventListener('mousemove', function(e){
-
-  //   mouse.x = e.layerX;
-  //   mouse.y = e.layerY;
-
-  //   console.log(q.nodes[2].nodes[3].getIndex(mouse));
-  // });
-
   (function update(){
 
     ctx.fillStyle = '#fff';
     ctx.fillRect(0,0,Game.width,Game.height);
+
+    Game.camera.update();
+    Game.camera.draw();
 
     for (var i = 0; i < entities.length; i++) {
       if(entities[i].exists){
@@ -92,24 +92,52 @@
     //   }
     // }
 
-    for (var i = 0; i < entities.length; i++) {
+    // for (var i = 0; i < entities.length; i++) {
 
-      var query = q.query( entities[i] );
+    //   var count = 0;
 
-      for (var j = 0; j < query.length; j++) {
+    //   var query = q.query( entities[i] );
 
-        if( entities[i] != query[j] && entities[i].intersectsAABB( query[j] ) ){
-          entities[i].color = 'rgba(24,255,24,0.5)';
-          query[j].color = 'rgba(24,255,24,0.5)';
-        }
+    //   for (var j = 0; j < query.length; j++) {
 
-      };
+    //     if( entities[i] != query[j] && entities[i].intersectsAABB( query[j] ) ){
+    //       entities[i].color = 'rgba(24,255,24,0.5)';
+    //       query[j].color = 'rgba(24,255,24,0.5)';
 
+    //     }
+    //     count++;
+    //   };
+
+    // };
+
+    var query = q.query( Game.camera );
+
+    //console.log(query.length);
+
+    //ctx.fillText('Collision check:' + count, 10,30);
+
+    //console.log(Game.camera.x, Game.camera.y, Game.camera.width, Game.camera.height);
+    var count = 0;
+    for (var i = 0; i < query.length; i++) {
+      if(query[i].intersectsAABB( Game.camera ) ){
+        //query[i].color = 'rgba(24,255,24,0.5)';
+        query[i].draw();
+        count++;
+      }
     };
 
-    for (var i = 0; i < entities.length; i++) {
-      entities[i].draw();
-    };
+    ctx.fillStyle = '#181818';
+    ctx.fillText('Total entities:' + entities.length, 10,20);
+    ctx.fillText('Paiting check:' + query.length, 10,32);
+    ctx.fillText('Paiting:' + count, 10,44);
+
+
+
+    // for (var i = 0; i < entities.length; i++) {
+    //   entities[i].draw();
+
+    //   entities[i].color = 'rgba(24,24,24,0.5)';
+    // };
 
     drawTree(q);
 
