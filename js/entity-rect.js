@@ -9,6 +9,7 @@
       this.vx = Util.random(-5, 5);
       this.vy = Util.random(-5, 5);
       this.index = null;
+      //this.setExists(false);
     },
     update: function(){
 

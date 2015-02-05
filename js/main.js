@@ -21,9 +21,9 @@
   var entities = [];
 
   var quadTreeBoundary = new AABB(0,0,Game.world.width,Game.world.height);
-  var q = new QuadTree( quadTreeBoundary );
+  var q = new QuadTree( quadTreeBoundary, 0 );
 
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 199; i++) {
 
     var width = Util.random(8, 50);
     var height = Util.random(8, 50);
@@ -41,6 +41,10 @@
      entities.push( new Rect( x, y, width, height ) );
   };
 
+  var player = new Player(499,488,50,50);
+
+   entities.push(player);
+
   function drawTree(node){
 
     ctx.beginPath();
@@ -51,7 +55,7 @@
     //DEBUG
     ctx.fillStyle = '#181818';
     ctx.fillRect( node.bounds.getCenterX() - 1 - Game.camera.x, node.bounds.getCenterY() - 1 - Game.camera.y, 2, 2);
-    ctx.fillText(node.bounds.getCenterX()+','+ node.bounds.getCenterY(), node.bounds.getCenterX() - Game.camera.x, node.bounds.getCenterY() - Game.camera.y);
+    //ctx.fillText(node.entities.length, node.bounds.getCenterX() - Game.camera.x, node.bounds.getCenterY() - Game.camera.y);
 
     for (var i =  0; i < node.nodes.length; i++) {
 
@@ -70,7 +74,7 @@
     Game.camera.draw();
 
     for (var i = 0; i < entities.length; i++) {
-      if(!entities[i].exists){
+      if(entities[i].exists){
         entities[i].update();
       }
     };
@@ -111,12 +115,8 @@
     // };
 
     var query = q.query( Game.camera );
-
-    //console.log(query.length);
-
     //ctx.fillText('Collision check:' + count, 10,30);
 
-    //console.log(Game.camera.x, Game.camera.y, Game.camera.width, Game.camera.height);
     var count = 0;
     for (var i = 0; i < query.length; i++) {
       if(query[i].intersectsAABB( Game.camera ) ){
@@ -130,12 +130,6 @@
     ctx.fillText('Total entities:' + entities.length, 10,20);
     ctx.fillText('Paiting check:' + query.length, 10,32);
     ctx.fillText('Paiting:' + count, 10,44);
-
-    // for (var i = 0; i < entities.length; i++) {
-    //   entities[i].draw();
-
-    //   entities[i].color = 'rgba(24,24,24,0.5)';
-    // };
 
     drawTree(q);
 
