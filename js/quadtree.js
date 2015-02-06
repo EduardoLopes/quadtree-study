@@ -5,6 +5,18 @@
   var MAX_ENTITIES = 2;
   var MAX_LEVELS = 5;
 
+  var QUADTREE_POOL = [];
+
+  function getQuadtree(x, y, width, height, level){
+    if(QUADTREE_POOL.length > 0){
+
+      return QUADTREE_POOL.pop().reset(x, y, width, height, level);
+    }
+
+    return new QuadTree(x, y, width, height, level);
+  }
+
+
   var QuadTree = Class.create(Rectangle, {
     initialize: function($super, x, y, width, height, level){
       $super(x, y, width, height);
@@ -12,13 +24,33 @@
       this.numEntities = 0;
       this.nodes = [];
       this.level = level;
+
     },
     clear: function(){
+      var i = 0;
+
+      for (i = 0; i < this.nodes.length; i++) {
+        this.nodes[i].clear();
+        QUADTREE_POOL.push(this.nodes[i]);
+      };
+
       this.entities.length = 0;
       this.numEntities = 0;
       this.nodes.length = 0;
+
     },
 
+    reset: function(x, y, width, height, level){
+
+      this.width = width;
+      this.height = height;
+      this.x = x;
+      this.y = y;
+      this.level = level;
+
+      return this;
+
+    },
     insert: function( entity ){
 
       var index, i = 0;
@@ -40,7 +72,7 @@
         if(typeof this.nodes[0] == 'undefined'){
           this.divide();
         }
-        i = 0;
+
         while (i < this.entities.length && this.level < MAX_LEVELS){
 
           index = this.getIndex(this.entities[i]);
@@ -59,10 +91,9 @@
     },
 
     getIndex: function(entity){
-      var index = -1;
-
-      var topQuadrant = (entity.y < this.getCenterY() && entity.y + entity.height < this.getCenterY());
-      var bottomQuadrant = (entity.y > this.getCenterY());
+      var index = -1,
+          topQuadrant = (entity.y < this.getCenterY() && entity.y + entity.height < this.getCenterY()),
+          bottomQuadrant = (entity.y > this.getCenterY());
 
       if(entity.x < this.getCenterX() && entity.x + entity.width < this.getCenterX()){
         if(topQuadrant){
@@ -84,7 +115,7 @@
 
     divide: function(){
 
-      this.nodes[0] = new QuadTree(
+      this.nodes[0] = getQuadtree(
         this.x,
         this.y,
         this.getHalfXDimention(),
@@ -92,7 +123,7 @@
         this.level + 1
       );
 
-      this.nodes[1] = new QuadTree(
+      this.nodes[1] = getQuadtree(
         this.getCenterX(),
         this.y,
         this.getHalfXDimention(),
@@ -100,7 +131,7 @@
         this.level + 1
       );
 
-      this.nodes[2] = new QuadTree(
+      this.nodes[2] = getQuadtree(
         this.getCenterX(),
         this.getCenterY(),
         this.getHalfXDimention(),
@@ -108,7 +139,7 @@
         this.level + 1
       );
 
-      this.nodes[3] = new QuadTree(
+      this.nodes[3] = getQuadtree(
         this.x,
         this.getCenterY(),
         this.getHalfXDimention(),
@@ -120,8 +151,8 @@
 
     query: function( range ){
 
-      var entities = [];
-      var index = this.getIndex(range);
+      var entities = [],
+          index = this.getIndex(range);
 
       entities.push.apply(entities, this.entities);
 
