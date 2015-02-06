@@ -3,8 +3,8 @@ describe("QuadTree", function() {
   var quadTree;
 
   beforeEach(function() {
-    var bounds = new AABB(0,0,1000, 1000);
-    quadTree = new QuadTree(bounds, 0);
+
+    quadTree = new QuadTree(0,0,1000, 1000, 0);
 
     quadTree.insert(new Entity(510,510,20,20));
     quadTree.insert(new Entity(515,515,20,20));
@@ -18,7 +18,7 @@ describe("QuadTree", function() {
 
   it("should extend from class Basic", function() {
 
-    expect(QuadTree.superclass).toBe(Basic);
+    expect(QuadTree.superclass).toBe(Rectangle);
 
   });
 

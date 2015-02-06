@@ -20,7 +20,6 @@
       this.keys = new Keys(document.body);
       this.camera.setBounds(this.world.width, this.world.height);
 
-
     }
   });
 

@@ -20,8 +20,8 @@
 
   var entities = [];
 
-  var quadTreeBoundary = new AABB(0,0,Game.world.width,Game.world.height);
-  var q = new QuadTree( quadTreeBoundary, 0 );
+  var quadTreeBoundary = new Rectangle();
+  var q = new QuadTree( 0,0,Game.world.width,Game.world.height, 0 );
 
   for (var i = 0; i < 199; i++) {
 
@@ -48,14 +48,14 @@
   function drawTree(node){
 
     ctx.beginPath();
-    ctx.rect( node.bounds.x - Game.camera.x, node.bounds.y - Game.camera.y, node.bounds.width, node.bounds.height );
+    ctx.rect( node.x - Game.camera.x, node.y - Game.camera.y, node.width, node.height );
     ctx.closePath();
     ctx.stroke();
 
     //DEBUG
     ctx.fillStyle = '#181818';
-    ctx.fillRect( node.bounds.getCenterX() - 1 - Game.camera.x, node.bounds.getCenterY() - 1 - Game.camera.y, 2, 2);
-    //ctx.fillText(node.entities.length, node.bounds.getCenterX() - Game.camera.x, node.bounds.getCenterY() - Game.camera.y);
+    ctx.fillRect( node.getCenterX() - 1 - Game.camera.x, node.getCenterY() - 1 - Game.camera.y, 2, 2);
+    //ctx.fillText(node.entities.length, node.getCenterX() - Game.camera.x, node.getCenterY() - Game.camera.y);
 
     for (var i =  0; i < node.nodes.length; i++) {
 

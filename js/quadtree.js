@@ -5,15 +5,13 @@
   var MAX_ENTITIES = 2;
   var MAX_LEVELS = 5;
 
-  var QuadTree = Class.create(Basic, {
-    initialize: function($super, AABB, level){
+  var QuadTree = Class.create(Rectangle, {
+    initialize: function($super, x, y, width, height, level){
+      $super(x, y, width, height);
       this.entities = [];
       this.numEntities = 0;
       this.nodes = [];
       this.level = level;
-
-      this.bounds = AABB;
-
     },
     clear: function(){
       this.entities.length = 0;
@@ -63,16 +61,16 @@
     getIndex: function(entity){
       var index = -1;
 
-      var topQuadrant = (entity.y < this.bounds.getCenterY() && entity.y + entity.height < this.bounds.getCenterY());
-      var bottomQuadrant = (entity.y > this.bounds.getCenterY());
+      var topQuadrant = (entity.y < this.getCenterY() && entity.y + entity.height < this.getCenterY());
+      var bottomQuadrant = (entity.y > this.getCenterY());
 
-      if(entity.x < this.bounds.getCenterX() && entity.x + entity.width < this.bounds.getCenterX()){
+      if(entity.x < this.getCenterX() && entity.x + entity.width < this.getCenterX()){
         if(topQuadrant){
           index = 0;
         } else if(bottomQuadrant){
           index = 3;
         }
-      } else if(entity.x > this.bounds.getCenterX()){
+      } else if(entity.x > this.getCenterX()){
         if(topQuadrant){
           index = 1;
         } else if(bottomQuadrant){
@@ -87,42 +85,34 @@
     divide: function(){
 
       this.nodes[0] = new QuadTree(
-        new AABB(
-          this.bounds.x,
-          this.bounds.y,
-          this.bounds.getHalfXDimention(),
-          this.bounds.getHalfYDimention()
-        ),
+        this.x,
+        this.y,
+        this.getHalfXDimention(),
+        this.getHalfYDimention(),
         this.level + 1
       );
 
       this.nodes[1] = new QuadTree(
-        new AABB(
-          this.bounds.getCenterX(),
-          this.bounds.y,
-          this.bounds.getHalfXDimention(),
-          this.bounds.getHalfYDimention()
-        ),
+        this.getCenterX(),
+        this.y,
+        this.getHalfXDimention(),
+        this.getHalfYDimention(),
         this.level + 1
       );
 
       this.nodes[2] = new QuadTree(
-        new AABB(
-          this.bounds.getCenterX(),
-          this.bounds.getCenterY(),
-          this.bounds.getHalfXDimention(),
-          this.bounds.getHalfYDimention()
-        ),
+        this.getCenterX(),
+        this.getCenterY(),
+        this.getHalfXDimention(),
+        this.getHalfYDimention(),
         this.level + 1
       );
 
       this.nodes[3] = new QuadTree(
-        new AABB(
-          this.bounds.x,
-          this.bounds.getCenterY(),
-          this.bounds.getHalfXDimention(),
-          this.bounds.getHalfYDimention()
-        ),
+        this.x,
+        this.getCenterY(),
+        this.getHalfXDimention(),
+        this.getHalfYDimention(),
         this.level + 1
       );
 

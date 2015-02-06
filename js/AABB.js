@@ -15,18 +15,6 @@
     },
     intersectsAABB: function( other ){
       return this.intersectRect(other.x, other.y, other.width, other.height);
-    },
-    getCenterX: function(){
-      return this.x + (this.width / 2);
-    },
-    getCenterY: function(){
-      return this.y + (this.height / 2);
-    },
-    getHalfXDimention: function(){
-      return this.width / 2;
-    },
-    getHalfYDimention: function(){
-      return this.height / 2;
     }
   });
 
