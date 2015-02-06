@@ -24,7 +24,6 @@
       this.numEntities = 0;
       this.nodes = [];
       this.level = level;
-
     },
     clear: function(){
       var i = 0;
@@ -151,23 +150,20 @@
 
     query: function( range ){
 
-      var entities = [],
-          index = this.getIndex(range);
-
-      entities.push.apply(entities, this.entities);
+      var index = this.getIndex(range);
 
       if(typeof this.nodes[0] != 'undefined'){
-        if (index != -1) entities.push.apply(entities, this.nodes[index].query( range ));
+        if (index != -1) this.entities.push.apply(this.entities, this.nodes[index].query( range ));
         else
           {
-            entities.push.apply(entities, this.nodes[0].query( range ));
-            entities.push.apply(entities, this.nodes[1].query( range ));
-            entities.push.apply(entities, this.nodes[2].query( range ));
-            entities.push.apply(entities, this.nodes[3].query( range ));
+            this.entities.push.apply(this.entities, this.nodes[0].query( range ));
+            this.entities.push.apply(this.entities, this.nodes[1].query( range ));
+            this.entities.push.apply(this.entities, this.nodes[2].query( range ));
+            this.entities.push.apply(this.entities, this.nodes[3].query( range ));
           }
       }
 
-      return entities;
+      return this.entities;
 
     }
 
